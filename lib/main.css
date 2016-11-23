@@ -14,3 +14,7 @@
 	flex-grow:1;
 	width:auto;
 }
+
+body{
+	background: grey;
+}
