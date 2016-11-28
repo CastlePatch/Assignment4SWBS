@@ -15,7 +15,11 @@
 	</ul>
 </div>
 
-Bulletins
+<div class="main-content">
+	<div class="bulletin-wrapper">
+		
+	</div>
+</div>
 
 </body>
 </html>

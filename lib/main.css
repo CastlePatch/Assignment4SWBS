@@ -13,6 +13,8 @@
 .header ul a{
 	flex-grow:1;
 	width:auto;
-	font-size: 1.3em;
-	font-style: none;
+}
+
+body{
+	background: grey;
 }
