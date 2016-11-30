@@ -18,17 +18,17 @@ _END;
 echo <<<_END
 <p>Sort by:<form method="post" action="mainlist.php">
     <select name="sort" size="1">
-        <option value="selected"></option>
         <option value="lname">Last Name</option>
         <option value="yr">Year</option>
         <option value="mjr">Major</option>
     </select>
     <input type="submit" value="Sort"></p>
+    </form>
    
 _END;
 
 echo <<<_END
-<p>Filter by:
+<p>Filter by:<form method="post" action="mainlist.php">
     <select name="filter" size="1" onchange="textfield(this.value)">
         <option selected="selected"></option>
         <option value="lastname">Last Name</option>
@@ -47,85 +47,11 @@ $pw = "cs5339!cs5339team7fa16";
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die($conn->connect_error);
 
-if(!(isset($_POST['sort']))) 
-{
-    $result = $conn->query("SELECT * FROM users ORDER BY username");
-if (!$result) die($conn->error);
 
-echo <<<_END
-<table>
-    <tr>
-        <th>Username</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Major</th>
-        <th>Year Graduated</th>
-        <th>Level</th>
-    </tr>
-_END;
-
-$rows = $result->num_rows;
-for ($j = 0 ; $j < $rows ; ++$j)
-  {
-    $result->data_seek($j);
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    echo "<tr><br>";
-    echo "<td>".$row['username']."</td><br>";
-    echo "<td>".$row['firstname']."</td><br>";
-    echo "<td>".$row['lastname']."</td><br>";
-    echo "<td>".$row['email']."</td><br>";
-    echo "<td>".$row['major']."</td><br>";
-    echo "<td>".$row['year']."</td><br>";
-    echo "<td>".$row['level']."</td><br>";
-    echo "</tr>";
-  }
-  echo "</table>";
-  echo "</html>";
-  $result->close();
-  $conn->close();
-}
 
 if(isset($_POST['sort']))
 {
-    if($_POST['sort'] == 'selected')
-    {
-        $result = $conn->query("SELECT * FROM users ORDER BY username");
-        if (!$result) die($conn->error);
-
-        echo <<<_END
-    <table>
-    <tr>
-        <th>Username</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Major</th>
-        <th>Year Graduated</th>
-        <th>Level</th>
-    </tr>
-_END;
-
-    $rows = $result->num_rows;
-    for ($j = 0 ; $j < $rows ; ++$j)
-      {
-       $result->data_seek($j);
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        echo "<tr><br>";
-        echo "<td>".$row['username']."</td><br>";
-        echo "<td>".$row['firstname']."</td><br>";
-        echo "<td>".$row['lastname']."</td><br>";
-        echo "<td>".$row['email']."</td><br>";
-        echo "<td>".$row['major']."</td><br>";
-        echo "<td>".$row['year']."</td><br>";
-        echo "<td>".$row['level']."</td><br>";
-        echo "</tr>";
-      }
-     echo "</table>";
-     echo "</html>";
-     $result->close();
-     $conn->close();
-    }
+    
     
     if($_POST['sort'] == 'lname')
     {
@@ -162,8 +88,7 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
     if($_POST['sort'] == 'yr')
     {
@@ -200,8 +125,7 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
     if($_POST['sort'] == 'mjr')
     {
@@ -238,9 +162,11 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
+}
+if(isset($_POST['filter']))
+{
     if(isset($_POST['lastname']))
     {
         $value = $_POST['lastname'];
@@ -277,8 +203,7 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
     if(isset($_POST['year']))
     {
@@ -316,8 +241,7 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
     if(isset($_POST['degree']))
     {
@@ -355,8 +279,7 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
     if(isset($_POST['level']))
     {
@@ -394,12 +317,47 @@ _END;
       }
      echo "</table>";
      echo "</html>";
-     $result->close();
-     $conn->close();
+     
     }
+    
 }
+else 
+{
+    $result = $conn->query("SELECT * FROM users ORDER BY username");
+    if (!$result) die($conn->error);
 
-//start from here to put inside the isset post
+echo <<<_END
+<table>
+    <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Major</th>
+        <th>Year Graduated</th>
+        <th>Level</th>
+    </tr>
+_END;
 
+$rows = $result->num_rows;
+for ($j = 0 ; $j < $rows ; ++$j)
+  {
+    $result->data_seek($j);
+    $row = $result->fetch_array(MYSQLI_ASSOC);
+    echo "<tr><br>";
+    echo "<td>".$row['username']."</td><br>";
+    echo "<td>".$row['firstname']."</td><br>";
+    echo "<td>".$row['lastname']."</td><br>";
+    echo "<td>".$row['email']."</td><br>";
+    echo "<td>".$row['major']."</td><br>";
+    echo "<td>".$row['year']."</td><br>";
+    echo "<td>".$row['level']."</td><br>";
+    echo "</tr>";
+  }
+  echo "</table>";
+  echo "</html>";
+  
+  
+}
 
 ?>
