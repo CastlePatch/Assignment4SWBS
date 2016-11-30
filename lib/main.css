@@ -81,3 +81,14 @@ body{
 .bulletin-input * textarea{
 	width:650px;
 }
+
+.bulletinTable{
+	background-color: white;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+tr{
+	border-top: 1px solid black;
+}
