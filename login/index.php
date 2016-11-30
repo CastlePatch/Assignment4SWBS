@@ -78,6 +78,7 @@ if(isset($_POST['username']) && $_POST['password'])
   {
 		//if user is found, create session
 		  $_SESSION["login"] = 'on';
+      $_SESSION["username"] = $username;
   }
   else // if user is not found
   {

@@ -32,12 +32,14 @@ body{
 	text-align: center;
 }
 
-.bulletin-wrapper{
+.bulletin-wrapper,
+.bulletin-input{
     background-color: #05366b;
     padding-top: 5px;
 }
 
-.bulletin-wrapper h3{
+.bulletin-wrapper h3,
+.bulletin-input h3{
 	color:white;
 	margin-top: 0px;
 	margin-bottom: 5px;
@@ -66,4 +68,16 @@ body{
 	margin-bottom: 5px;
 	margin-left: auto;
 	margin-right: auto;
+}
+.bulletin-input{
+	width: 700px;
+	margin-left: auto;
+	margin-right:auto;
+	text-align: center;
+	color:white;
+}
+
+.bulletin-input * input,
+.bulletin-input * textarea{
+	width:650px;
 }

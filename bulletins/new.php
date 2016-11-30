@@ -20,18 +20,18 @@
 			<button>My Bulletins</button>
 			<button>New Bulletin</button>
 		</div>
-		<div class="bulletin-wrapper">
+		<div class="bulletin-input">
 			<h3>Bulletins</h3>
-			<form action="bulletins/new.php" method="POST">
+			<form action="new.php" method="POST">
 				<div>
-					Title:
+					<div>Title:</div>
 					<input type="text" name="Title">
 				</div>
 				<div>
-					Content:
-					<input type="textarea" name="Content">
+					<div>Content:</div>
+					<textarea type="text" name="Content"></textarea>
 				</div>
-				<button></button>
+				<button type="submit">Submit</button>
 			</form>
 		</div>
 	</div>
