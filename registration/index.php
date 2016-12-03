@@ -4,6 +4,8 @@ $user='cs5339team7fa16';
 $password='cs5339!cs5339team7fa16';
 $database='cs5339team7fa16';
 
+$db_longpre = "wb_longpre";
+
 session_start();
 if(isset($_POST['signout'])) // if the user signs out, it destroys the session
   {
@@ -39,10 +41,10 @@ if(isset($_POST['signout'])) // if the user signs out, it destroys the session
 	<center>
 		<p>Enter information to register.</p>
 		<form name="form" method="post" action="index.php" onsubmit="return validate()">
-			Create new Username to register:<br>
+      Enter Username:<br>
 			<input type="text" name="username">
-			<br><br>
-			Enter First Name:<br>
+      <br><br>
+      Enter First Name:<br>
 			<input type="text" name="firstname">
 			<br><br>
 			Enter Last Name:<br>
@@ -62,8 +64,9 @@ if(isset($_POST['signout'])) // if the user signs out, it destroys the session
 			<br><br>
 			Enter Graduate Level:<br>
 			<select name="level">
-	  		<option value="und">Undergraduate</option>
-	  		<option value="grad">Graduate</option>
+	  		<option value="UG">Undergraduate</option>
+	  		<option value="GR">Graduate</option>
+        <option value="DR">Doctorate</option>
 		 </select>
 	<br><br>
 	<input type="submit" value="Register">
@@ -75,20 +78,19 @@ if(isset($_POST['signout'])) // if the user signs out, it destroys the session
 	</html>
 
 <?php
-if(isset($_POST['username']) && $_POST['password'])
+if(isset($_POST['firstname']) && $_POST['password'] && $_POST['lastname'] && $_POST['level'])
 {
 	$connection = mysqli_connect($host, $user, $password);
-
-	if(!$connection)
+  $connection_longpre = mysqli_connect($host, $user, $password);
+	if(!$connection && !$connection_longpre)
 	{
 		die('Could not connect: ' . mysql_error());
 	}
-	//echo "connection successful";
 
 	$connection->select_db("cs5339team7fa16");
-	//echo "test";
+  $connection_longpre->select_db("wb_longpre");
 
-	$username = $_POST['username'];
+  $username = $_POST['username'];
 	$passw = $_POST['password'];
 	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
@@ -97,34 +99,53 @@ if(isset($_POST['username']) && $_POST['password'])
 	$year = $_POST['year'];
 	$level = $_POST['level'];
 
-	$salt_string = "$%_!1-"; // random salt string
-	$salt_username = $username;
-	$salt_password = hash('ripemd128', "$salt_string.$salt_username.$passw");
+  $salt_string = "$%_!1-"; // random salt string
+  $salt_username = $username;
+  $salt_password = hash('ripemd128', "$salt_string.$salt_username.$passw");
 
-	//Query that checks if an username already exists in the record
-	$result = $connection->query("SELECT username FROM users WHERE username = '$username'");
-	if($result->num_rows == 0) {
-	     // username not found
-			 $sql = "INSERT INTO users (username, password, firstname, lastname, email, major, year, level)
-			VALUES ('$username', '$salt_password', '$firstname', '$lastname', '$email', '$major', '$year', '$level')";
+  /* Query to check if the account exists*/
+  $sql = "SELECT * FROM csdegrees WHERE FirstName='$firstname' AND LastName='$lastname' AND LevelCode='$level'";
+  $result2 = $connection_longpre->query($sql);
 
-			if ($connection->query($sql) === TRUE)
-			 {
-				 echo "<center>";
-				 echo "New User created successfully";
-				 echo "</center>";
-			 }
-			else
-			 {
-				 echo "Error: " . $sql . "<br>" . $connection->error;
-			 }
-	}
-	else
-	{
-	    // user already exists in the record
-			echo '<script type="text/javascript">alert("Username already exists, type a different username");</script>';
-	}
+  if ($result2->num_rows > 0) {
+      while($row = $result2->fetch_assoc()) {
+        $id = $row["id"];
+        $sql = "INSERT INTO registered_users (id, username, password, firstname, lastname, email, major, year, level)
+     VALUES ('$id', '$username', '$salt_password', '$firstname', '$lastname', '$email', '$major', '$year', '$level')";
+     if ($connection->query($sql) === TRUE)
+      {
+        echo "<center>";
+        echo "New User created successfully";
+        echo "</center>";
+      }
+     else
+      {
+        echo "Error: " . $sql . "<br>" . $connection->error;
+      }
+      }
+  } else {
+      echo '<script type="text/javascript">alert("No account linked to the record already exists");</script>';
+  }
+  $connection_longpre->close();
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // SIGN OUT FORM
 if(isset($_SESSION['login']))

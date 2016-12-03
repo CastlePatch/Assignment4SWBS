@@ -71,7 +71,7 @@ if(isset($_POST['username']) && $_POST['password'])
   $salt_username = $username;
   $salt_password = hash('ripemd128', "$salt_string.$salt_username.$user_password");
 
-  $query = "SELECT * FROM users WHERE username='$username' and password='$salt_password'";
+  $query = "SELECT * FROM registered_users WHERE username='$username' and password='$salt_password'";
   $result = $connection->query($query);
 
   if ($result->num_rows)
