@@ -7,6 +7,7 @@ $database='cs5339team7fa16';
 $db_longpre = "wb_longpre";
 
 session_start();
+//echo $_SESSION["login"];
 if(isset($_POST['signout'])) // if the user signs out, it destroys the session
   {
     session_destroy();    // destroy the session
@@ -133,20 +134,6 @@ if(isset($_POST['firstname']) && $_POST['password'] && $_POST['lastname'] && $_P
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // SIGN OUT FORM
 if(isset($_SESSION['login']))
 {
@@ -154,7 +141,7 @@ if(isset($_SESSION['login']))
   echo "<form method='post' action='index.php'>";
   echo "<input type='submit' name='signout' value='SIGN OUT'>";
   echo "</form>";
-  if($_SESSION['login']=='on')
+  if(isset($_SESSION['login']))
   {
     echo "You are logged in";
   }

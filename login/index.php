@@ -3,6 +3,7 @@ $host='earth.cs.utep.edu';
 $user='cs5339team7fa16';
 $password='cs5339!cs5339team7fa16';
 $database='cs5339team7fa16';
+$db_longpre = "wb_longpre";
 
 session_start();
 
@@ -57,11 +58,13 @@ if(isset($_POST['username']) && $_POST['password'])
 {
   /*CREATES CONNECTION */
   $connection = mysqli_connect($host, $user, $password);
-  if(!$connection)
-  {
-    die('Could not connect: ' . mysql_error());
-  }
+  $connection_longpre = mysqli_connect($host, $user, $password);
+  if(!$connection && !$connection_longpre)
+	{
+		die('Could not connect: ' . mysql_error());
+	}
   $connection->select_db("cs5339team7fa16");
+  $connection_longpre->select_db("wb_longpre");
 
   $username = $_POST['username'];
   $user_password = $_POST['password'];
@@ -74,10 +77,17 @@ if(isset($_POST['username']) && $_POST['password'])
   $query = "SELECT * FROM registered_users WHERE username='$username' and password='$salt_password'";
   $result = $connection->query($query);
 
+
   if ($result->num_rows)
   {
+    while($row = $result->fetch_assoc())
+    {
+      $id = $row["id"];
+      //echo $id;
+    }
 		//if user is found, create session
-		  $_SESSION["login"] = 'on';
+		  $_SESSION["login"] = $id;
+      //echo $_SESSION["login"];
       $_SESSION["username"] = $username;
   }
   else // if user is not found
@@ -93,7 +103,7 @@ if(isset($_SESSION['login']))
   echo "<form method='post' action='index.php'>";
   echo "<input type='submit' name='signout' value='SIGN OUT'>";
   echo "</form>";
-  if($_SESSION['login']=='on')
+  if(isset($_SESSION['login']))
   {
     echo "You are logged in";
   }
