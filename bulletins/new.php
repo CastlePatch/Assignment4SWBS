@@ -19,18 +19,21 @@
 		$title = sanitize($_POST['Title']);
 		$content = sanitize($_POST['Content']);
 		if(!isset($_POST['verificationToken']))
-			echo "<script>window.location = '../login/index.php'</script>";
+			echo "Error 1";
+			//echo "<script>window.location = '../login/index.php'</script>";
 		$requestToken = $_POST['verificationToken'];
 
-		if($requestToken != $_SESSION['verificationToken']){
-			echo "<script>window.location = '../login/index.php'</script>";
+		if($requestToken != hash("sha256", $_SESSION['verificationToken'])){
+			//echo "<script>window.location = '../login/index.php'</script>";
+			echo $requestToken . " == " . $_SESSION['verificationToken'];
+			echo "Error 2";
 		}
 
 	//get the username
-	$username = $_SESSION['username']
+	$username = $_SESSION['username'];
 
 	//insert bulletin in table
-		$date = new DateTime(DATE_ATOM);
+		$date = date("Y-m-d H:i:s");
 		$status = 1;
 		$query=$conn->prepare("INSERT INTO bulletins (User, Title, Content, Date, Status) VALUES (?, ?, ?, ?, ?)");
 		$query->bind_param("ssssi",$username, $title, $content, $date, $status);
@@ -87,8 +90,7 @@
 
 	<div class="main-content">
 		<div class="bulletin-buttons">
-			<button onclick="window.location = 'mybulletins.php'">My Bulletins</button>
-			<button onclick="window.location = 'new.php'">New Bulletin</button>
+			<button onclick="window.location = 'index.php'">All Bulletins</button>
 		</div>
 		<div class="bulletin-input">
 			<h3>Bulletins</h3>

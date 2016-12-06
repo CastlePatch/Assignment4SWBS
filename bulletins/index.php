@@ -18,44 +18,39 @@
 
 	<div class="main-content">
 		<div class="bulletin-buttons">
-			<button onclick="window.location = 'mybulletins.php'">My Bulletins</button>
 			<button onclick="window.location = 'new.php'">New Bulletin</button>
 		</div>
 		<div class="bulletin-wrapper">
 			<h3>Bulletins</h3>
 			<div class="bulletins">
-				<div class="bulletin">
-					<h4>Title of bulletin</h4>
+				
+			<?php 
+				$host='earth.cs.utep.edu';
+				$user='cs5339team7fa16';
+				$password='cs5339!cs5339team7fa16';
+				$database='cs5339team7fa16';
+
+				$conn = mysqli_connect($host, $user, $password, $database);
+			  	if(!$conn){
+					die('Could not connect: ' . mysql_error());
+				}
+
+				$query=$conn->prepare("SELECT * FROM bulletins WHERE Status = 1 ORDER BY ID DESC;");
+				$query->execute();
+				$bulletins = $query->get_result();
+			    while ($myrow = $bulletins->fetch_assoc()) {
+			    	echo '<div class="bulletin"><h4>' . $myrow['Title'] . '</h4>
 					<div class="bulletin-content">
-						Sample bulletin example
+						' . $myrow['Content'] . '
 					</div>
-					<div class="creator">Creator of the bulletin: Jesus</div>
-					<div class="date">Date bulletin was created: 11-28-2016</div>
-				</div>
-				<div class="bulletin">
-					<h4>Title of bulletin</h4>
-					<div class="bulletin-content">
-						Sample bulletin example
-					</div>
-					<div class="creator">Creator of thhe bulletin: Jesus</div>
-					<div class="date">Date bulletin was created: 11-28-2016</div>
-				</div>
-				<div class="bulletin">
-					<h4>Title of bulletin</h4>
-					<div class="bulletin-content">
-						Sample bulletin example
-					</div>
-					<div class="creator">Creator of thhe bulletin: Jesus</div>
-					<div class="date">Date bulletin was created: 11-28-2016</div>
-				</div>
-				<div class="bulletin">
-					<h4>Title of bulletin</h4>
-					<div class="bulletin-content">
-						Sample bulletin example
-					</div>
-					<div class="creator">Creator of thhe bulletin: Jesus</div>
-					<div class="date">Date bulletin was created: 11-28-2016</div>
-				</div>
+					<div class="creator">Creator of the bulletin: ' . $myrow['User'] . '</div>
+					<div class="date">Date bulletin was created: ' . $myrow['Date'] . '</div></div>';
+		    	}
+
+				mysqli_stmt_close($query);
+				mysqli_close($conn);
+			?>
+				
 			</div>
 		</div>
 	</div>
