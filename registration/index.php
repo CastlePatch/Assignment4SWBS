@@ -25,9 +25,9 @@ if(isset($_POST['signout'])) // if the user signs out, it destroys the session
 		<center>
 		<div class="header">
 			<ul>
-				<a href="#"><li>Alumni</li></a>
-				<a href="#"><li>Profile</li></a>
-				<a href="/Assignment4SWBS/login"><li>Log In</li></a>
+				<a href="../mainlist.php"><li>Alumni</li></a>
+				<a href="../profile.php"><li>Profile</li></a>
+				<a href="../login"><li>Log In</li></a>
 				<a href="#"><li>Register</li></a>
 			</ul>
 		</div>
