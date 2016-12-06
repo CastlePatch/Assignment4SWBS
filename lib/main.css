@@ -92,3 +92,7 @@ body{
 tr{
 	border-top: 1px solid black;
 }
+
+.bulletinTable thead{
+	background-color: grey;
+}
