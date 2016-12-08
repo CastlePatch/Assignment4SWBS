@@ -96,3 +96,9 @@ tr{
 .bulletinTable thead{
 	background-color: grey;
 }
+
+.logoff{
+	width:100px;
+	margin-left: auto;
+	margin-right: 25%;
+}

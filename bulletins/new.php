@@ -1,4 +1,10 @@
 <?php 
+	session_start();
+	if(!isset($_SESSION['login']) || $_SESSION['login'] == ""){
+		header("Location: ../login/");
+	}
+
+	
 	$host='earth.cs.utep.edu';
 	$user='cs5339team7fa16';
 	$password='cs5339!cs5339team7fa16';
@@ -10,23 +16,17 @@
 	}
 
 
-	session_start();
-	if(!isset($_SESSION['login']) || $_SESSION['login'] == ""){
-		echo "<script>window.location = '../login/index.php'</script>";
-	}
 	if(isset($_POST['Title']) && isset($_POST['Content'])){
 		$error = "";
 		$title = sanitize($_POST['Title']);
 		$content = sanitize($_POST['Content']);
 		if(!isset($_POST['verificationToken']))
-			echo "Error 1";
-			//echo "<script>window.location = '../login/index.php'</script>";
+			header("Location: ../login/");
+		
 		$requestToken = $_POST['verificationToken'];
 
 		if($requestToken != hash("sha256", $_SESSION['verificationToken'])){
-			//echo "<script>window.location = '../login/index.php'</script>";
-			echo $requestToken . " == " . $_SESSION['verificationToken'];
-			echo "Error 2";
+			header("Location: ../login/");
 		}
 
 	//get the username
@@ -82,10 +82,12 @@
 		<ul>
 			<a href="../"><li>Alumni</li></a>
 			<a href="../profile.php"><li>Profile</li></a>
-			<a href="../login"><li>Log In</li></a>
-			<a href="../register"><li>Register</li></a>
 			<a href="index.php"><li>Bulletins</li></a>
 		</ul>
+		<form action="login.php" method="POST" class="logoff">
+			<input type="hidden" name="signout" value="true">
+			<button type="submit">Log off</button>
+		</form>
 	</div>
 
 	<div class="main-content">
