@@ -40,9 +40,9 @@ echo <<<_END
 <h2 style="text-align: center">Alumni List</h2>
 <ul>
     <a href="#"><li>Alumni</li></a>
-    <a href="#"><li>Profile</li></a>
-    <a href="#"><li>Log In</li></a>
-    <a href="#"><li>Register</li></a>
+    <a href="profile.php"><li>Profile</li></a>
+    <a href="login/index.php"><li>Log In</li></a>
+    <a href="register/index.php"><li>Register</li></a>
 </ul>
    <p style="text-align: right">Sort by:<form style="text-align: right" method="post" action="mainlist.php">
     <select name="sort" size="1">
