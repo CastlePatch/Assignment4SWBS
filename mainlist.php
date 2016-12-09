@@ -41,6 +41,7 @@ echo <<<_END
 <ul>
     <a href="#"><li>Alumni</li></a>
     <a href="profile.php"><li>Profile</li></a>
+    <a href="bulletins/index.php"><li>Bulletins</li></a>
     <a href="login/index.php"><li>Log In</li></a>
     <a href="register/index.php"><li>Register</li></a>
 </ul>
